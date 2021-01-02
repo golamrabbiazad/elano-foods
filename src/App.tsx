@@ -1,24 +1,48 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import './App.css';
-import Footer from './components/Footer';
+import React, { useState, useEffect } from 'react';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Home from './pages/home';
+import Home from './pages';
 import About from './pages/about';
 import Menu from './pages/menu';
+import Footer from './components/Footer';
+import contact from './pages/contact';
+import Dropdown from './components/Dropdown';
 
-function App() {
+const App = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggle = () => {
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    const hideMenu = () => {
+      if (window.innerWidth > 768 && isOpen) {
+        setIsOpen(false);
+        console.log('resized');
+      }
+    };
+
+    window.addEventListener('resize', hideMenu);
+
+    return () => {
+      window.removeEventListener('resize', hideMenu);
+    };
+  });
+
   return (
-    <>
-      <Navbar />
+    <Router>
+      <Navbar toggle={toggle} />
+      <Dropdown isOpen={isOpen} toggle={toggle} />
       <Switch>
-        <Route path="/" exect component={Home} />
+        <Route path="/" exact component={Home} />
         <Route path="/about" component={About} />
         <Route path="/menu" component={Menu} />
+        <Route path="/contact" component={contact} />
       </Switch>
       <Footer />
-    </>
+    </Router>
   );
-}
+};
 
 export default App;

@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+interface NavProps {
+  toggle: () => void;
+}
+
+const Navbar: FunctionComponent<NavProps> = ({ toggle }) => {
   return (
     <nav
       className="flex justify-between items-center h-16 bg-white text-black relative shadow-sm font-inter"
@@ -10,7 +14,7 @@ const Navbar = () => {
       <Link to="/" className="pl-8">
         Elano
       </Link>
-      <div className="px-4 cursor-pointer md:hidden">
+      <div className="px-4 cursor-pointer md:hidden" onClick={toggle}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
